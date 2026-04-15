@@ -51,8 +51,12 @@ REPORTS = {
 
 
 def get_report(report_name):
-    Report = REPORTS.get(report_name)
-    return Report()
+    try:
+        ReportType = REPORTS[report_name]
+        return ReportType()
+    except KeyError:
+        raise ValueError(f"Неизвестый тип репорта: {report_name}")
+        
 
 
 def main():
