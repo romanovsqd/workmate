@@ -10,4 +10,4 @@ def get_report(report_name):
         ReportType = REPORTS[report_name]
         return ReportType()
     except KeyError:
-        raise ValueError(f"Неизвестый тип отчета: {report_name}")
+        raise ValueError(f"Unknown report type: {report_name}")
