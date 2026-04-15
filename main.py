@@ -19,6 +19,8 @@ class ClickbaitReport(BaseReport):
             if row["ctr"] > 15 and row["retention_rate"] < 40:
                 filtered_rows.append(row)
 
+        filtered_rows.sort(key=lambda x: x["ctr"], reverse=True)
+
         return filtered_rows
 
 
@@ -55,8 +57,6 @@ def main():
 
     clickbait_report = ClickbaitReport()
     report = clickbait_report.generate(rows)
-
-    report.sort(key=lambda x: x["ctr"], reverse=True)
 
     print(tabulate(report, headers="keys", tablefmt="grid"))
 
