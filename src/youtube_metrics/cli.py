@@ -7,7 +7,7 @@ from .readers import FileReader
 from .settings import get_report
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--files", type=str, nargs="+", required=True)
@@ -16,9 +16,9 @@ def main():
     args = parser.parse_args()
 
     try:
-        videos = FileReader.read_csv_files(args.files)
+        videos = FileReader.read_csv_files(files=args.files)
 
-        report = get_report(args.report)
+        report = get_report(report_name=args.report)
         report_data = report.generate(videos)
     except Exception as e:
         print(f"Error: {e}")

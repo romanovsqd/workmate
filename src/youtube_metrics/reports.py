@@ -3,12 +3,12 @@ from abc import ABC, abstractmethod
 
 class BaseReport(ABC):
     @abstractmethod
-    def generate(self, data):
+    def generate(self, data: list[dict]) -> list[dict]:
         pass
 
 
 class ClickbaitReport(BaseReport):
-    def generate(self, videos):
+    def generate(self, videos: list[dict]) -> list[dict]:
         clickbaits = []
 
         for video in videos:
@@ -18,7 +18,7 @@ class ClickbaitReport(BaseReport):
                     "ctr": video["ctr"],
                     "retention_rate": video["retention_rate"],
                 }
-                
+
                 clickbaits.append(clickbait_video)
 
         clickbaits.sort(key=lambda x: x["ctr"], reverse=True)

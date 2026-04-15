@@ -3,7 +3,7 @@ import csv
 
 class FileReader:
     @staticmethod
-    def read_csv_files(files):
+    def read_csv_files(files: list[str]) -> list[dict]:
         videos = []
 
         for file_path in files:
