@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 from tabulate import tabulate
 
@@ -14,9 +15,13 @@ def main():
 
     args = parser.parse_args()
 
-    rows = FileReader.read_csv_files(args.files)
+    try:
+        rows = FileReader.read_csv_files(args.files)
 
-    report = get_report(args.report)
-    report_data = report.generate(rows)
+        report = get_report(args.report)
+        report_data = report.generate(rows)
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
 
     print(tabulate(report_data, headers="keys", tablefmt="grid"))
