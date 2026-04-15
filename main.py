@@ -22,6 +22,27 @@ class ClickbaitReport(BaseReport):
         return filtered_rows
 
 
+class FileReader:
+    @staticmethod
+    def read_csv_files(files):
+        rows = []
+
+        for file_path in files:
+            with open(file_path, "r", encoding="utf-8") as file:
+                reader = csv.DictReader(file)
+
+                for row in reader:
+                    rows.append(
+                        {
+                            "title": row["title"],
+                            "ctr": float(row["ctr"]),
+                            "retention_rate": float(row["retention_rate"]),
+                        }
+                    )
+
+        return rows
+
+
 def main():
     parser = argparse.ArgumentParser()
 
@@ -30,20 +51,7 @@ def main():
 
     args = parser.parse_args()
 
-    rows = []
-
-    for file_path in args.files:
-        with open(file_path, "r", encoding="utf-8") as file:
-            reader = csv.DictReader(file)
-
-            for row in reader:
-                rows.append(
-                    {
-                        "title": row["title"],
-                        "ctr": float(row["ctr"]),
-                        "retention_rate": float(row["retention_rate"]),
-                    }
-                )
+    rows = FileReader.read_csv_files(args.files)
 
     clickbait_report = ClickbaitReport()
     report = clickbait_report.generate(rows)
