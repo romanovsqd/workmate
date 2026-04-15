@@ -15,6 +15,7 @@ class FileReader:
                         "title": row["title"],
                         "ctr": float(row["ctr"]),
                         "retention_rate": int(row["retention_rate"]),
+                        "views": int(row["views"]),
                         "likes": int(row["likes"]),
                         "avg_watch_time": float(row["avg_watch_time"]),
                     }
