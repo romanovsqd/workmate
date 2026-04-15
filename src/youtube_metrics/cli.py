@@ -16,10 +16,10 @@ def main():
     args = parser.parse_args()
 
     try:
-        rows = FileReader.read_csv_files(args.files)
+        videos = FileReader.read_csv_files(args.files)
 
         report = get_report(args.report)
-        report_data = report.generate(rows)
+        report_data = report.generate(videos)
     except Exception as e:
         print(f"Error: {e}")
         sys.exit(1)

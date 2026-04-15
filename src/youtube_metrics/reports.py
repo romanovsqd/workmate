@@ -8,13 +8,19 @@ class BaseReport(ABC):
 
 
 class ClickbaitReport(BaseReport):
-    def generate(self, rows):
-        filtered_rows = []
+    def generate(self, videos):
+        clickbaits = []
 
-        for row in rows:
-            if row["ctr"] > 15 and row["retention_rate"] < 40:
-                filtered_rows.append(row)
+        for video in videos:
+            if video["ctr"] > 15 and video["retention_rate"] < 40:
+                clickbait_video = {
+                    "title": video["title"],
+                    "ctr": video["ctr"],
+                    "retention_rate": video["retention_rate"],
+                }
+                
+                clickbaits.append(clickbait_video)
 
-        filtered_rows.sort(key=lambda x: x["ctr"], reverse=True)
+        clickbaits.sort(key=lambda x: x["ctr"], reverse=True)
 
-        return filtered_rows
+        return clickbaits
