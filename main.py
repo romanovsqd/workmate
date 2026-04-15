@@ -45,6 +45,16 @@ class FileReader:
         return rows
 
 
+REPORTS = {
+    "clickbait": ClickbaitReport,
+}
+
+
+def get_report(report_name):
+    Report = REPORTS.get(report_name)
+    return Report()
+
+
 def main():
     parser = argparse.ArgumentParser()
 
@@ -55,10 +65,10 @@ def main():
 
     rows = FileReader.read_csv_files(args.files)
 
-    clickbait_report = ClickbaitReport()
-    report = clickbait_report.generate(rows)
+    report = get_report(args.report)
+    report_data = report.generate(rows)
 
-    print(tabulate(report, headers="keys", tablefmt="grid"))
+    print(tabulate(report_data, headers="keys", tablefmt="grid"))
 
 
 if __name__ == "__main__":
