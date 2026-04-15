@@ -1,7 +1,25 @@
 import argparse
 import csv
+from abc import ABC, abstractmethod
 
 from tabulate import tabulate
+
+
+class BaseReport(ABC):
+    @abstractmethod
+    def generate(self, data):
+        pass
+
+
+class ClickbaitReport(BaseReport):
+    def generate(self, rows):
+        filtered_rows = []
+
+        for row in rows:
+            if row["ctr"] > 15 and row["retention_rate"] < 40:
+                filtered_rows.append(row)
+
+        return filtered_rows
 
 
 def main():
@@ -13,26 +31,26 @@ def main():
     args = parser.parse_args()
 
     rows = []
+
     for file_path in args.files:
         with open(file_path, "r", encoding="utf-8") as file:
             reader = csv.DictReader(file)
+
             for row in reader:
-                title = row["title"]
-                ctr = float(row["ctr"])
-                retention_rate = float(row["retention_rate"])
+                rows.append(
+                    {
+                        "title": row["title"],
+                        "ctr": float(row["ctr"]),
+                        "retention_rate": float(row["retention_rate"]),
+                    }
+                )
 
-                if ctr > 15 and retention_rate < 40:
-                    rows.append(
-                        {
-                            "title": title,
-                            "ctr": ctr,
-                            "retention_rate": retention_rate,
-                        }
-                    )
-                    
-    rows.sort(key=lambda x: x["ctr"], reverse=True)
+    clickbait_report = ClickbaitReport()
+    report = clickbait_report.generate(rows)
 
-    print(tabulate(rows, headers="keys", tablefmt="grid"))
+    report.sort(key=lambda x: x["ctr"], reverse=True)
+
+    print(tabulate(report, headers="keys", tablefmt="grid"))
 
 
 if __name__ == "__main__":
